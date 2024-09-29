@@ -14,7 +14,6 @@
 
 #include "GOMemoryPool.h"
 #include "GOOrgan.h"
-#include "GOPath.h"
 #include "GOPortFactory.h"
 #include "GOStdPath.h"
 #include "archive/GOArchiveFile.h"
@@ -24,6 +23,7 @@
 #include "config/GOConfigReaderDB.h"
 #include "config/GOConfigWriter.h"
 #include "go_limits.h"
+#include "go_path.h"
 #include "midi/ports/GOMidiPort.h"
 #include "midi/ports/GOMidiPortFactory.h"
 #include "settings/GOSettingEnum.cpp"
@@ -386,22 +386,22 @@ void GOConfig::LoadDefaults() {
     m_MIDIEvents.push_back(new GOMidiReceiverBase(m_MIDISettings[i].type));
   m_ResourceDir = GOStdPath::GetResourceDir();
 
-  OrganPath.setDefaultValue(GOStdPath::GetGrandOrgueSubDir(_("Organs")));
-  OrganPackagePath.setDefaultValue(
+  OrganPath.SetDefaultValue(GOStdPath::GetGrandOrgueSubDir(_("Organs")));
+  OrganPackagePath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("Organ packages")));
-  OrganCachePath.setDefaultValue(
+  OrganCachePath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(wxT("Cache") + m_InstanceName));
-  OrganSettingsPath.setDefaultValue(
+  OrganSettingsPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(wxT("Data") + m_InstanceName));
-  OrganCombinationsPath.setDefaultValue(
+  OrganCombinationsPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("Combinations")));
-  ExportImportPath.setDefaultValue(
+  ExportImportPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("Settings")));
-  AudioRecorderPath.setDefaultValue(
+  AudioRecorderPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("Audio recordings")));
-  MidiRecorderPath.setDefaultValue(
+  MidiRecorderPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("MIDI recordings")));
-  MidiPlayerPath.setDefaultValue(
+  MidiPlayerPath.SetDefaultValue(
     GOStdPath::GetGrandOrgueSubDir(_("MIDI recordings")));
 }
 
@@ -647,6 +647,6 @@ void GOConfig::Flush() {
     wxLogError(_("Could not write to '%s'"), tmp_name.c_str());
     return;
   }
-  if (!GORenameFile(tmp_name, m_ConfigFileName))
+  if (!go_rename_file(tmp_name, m_ConfigFileName))
     return;
 }
